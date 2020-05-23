@@ -1,0 +1,45 @@
+@startuml
+class YAIPR {
+    - Sectionlist sectionlist
+    + parse(String inifilecontent)
+}
+
+class Sectionlist {
+    - vector<Section> sectionlist
+    + void parse(String inifilecontent)
+}
+
+class Section {
+    - String sectionname
+    - Entrylist entrylist
+    + void parse(String sectioncontent)
+}
+
+class Entrylist {
+    - vector<Entry> entrylist
+    + void parse(String sectioncontent)
+}
+
+class Entry {
+    - vector<String> entrycomments
+    - String entrykey
+    - String entryvalue
+    + void parse(String entrycontent)
+}
+
+YAIPR "1" *-- "1" Sectionlist : contains >
+Sectionlist "1" *-- "many" Section : contains >
+Section "1" *-- "1" Entrylist : contains >
+Entrylist "1" *-- "many" Entry : contains >
+
+interface Info {
+    {abstract} +void info()
+}
+
+YAIPR <|-- Info
+Sectionlist <|-- Info
+Section <|-- Info
+Entrylist <|-- Info
+Entry <|-- Info
+
+@enduml

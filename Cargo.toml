@@ -18,7 +18,4 @@ regex="1.3.7"
 name = "yaipr"
 path = "src/parser.rs"
 edition = "2018"
-
-[[bin]]
-name = "yaipr-test"
-path = "src/bin/main.rs"
+crate-type = ["dylib"]

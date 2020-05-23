@@ -23,7 +23,7 @@ impl Parser {
         let re_section = Regex::new(r"(?ms)(?P<SEC_FULL>^\[[^\[]*)").unwrap();
 
         for cap in re_section.captures_iter(&contents) {
-            let mut new_section = Section::new(&cap["SEC_FULL"]);
+            let new_section = Section::new(&cap["SEC_FULL"]);
             self.sectionlist.push(new_section);
         }
     }
