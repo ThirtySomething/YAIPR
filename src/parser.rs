@@ -1,36 +1,30 @@
-use regex::Regex;
 use std::fs;
 
-mod section;
-use section::Section;
+mod sectionlist;
+use crate::sectionlist::SectionList;
 
 #[derive(Debug)]
 pub struct Parser {
     filename: String,
-    sectionlist: Vec<Section>,
+    sectionlist: SectionList,
 }
 
 impl Parser {
     pub fn new(filename: &str) -> Self {
         return Self {
             filename: filename.to_owned(),
-            sectionlist: Vec::new(),
+            sectionlist: SectionList::new(),
         };
     }
 
     pub fn parse(&mut self) {
         let contents = self.getfilecontent(&self.filename);
-        let re_section = Regex::new(r"(?ms)(?P<SEC_FULL>^\[[^\[]*)").unwrap();
-
-        for cap in re_section.captures_iter(&contents) {
-            let new_section = Section::new(&cap["SEC_FULL"]);
-            self.sectionlist.push(new_section);
-        }
+        self.sectionlist.parse(contents);
     }
 
     pub fn print_info(&self) {
         println!("Filname [{}]", self.filename);
-        for sec in &self.sectionlist {
+        for sec in &self.sectionlist.sectionlist {
             println!("Section: {:?}", sec);
         }
     }
